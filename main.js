@@ -3,17 +3,24 @@ import { ref, onValue, update, remove, set, push} from "https://www.gstatic.com/
 
 const content = document.querySelector('#content')
 
-// class Book {
-//     #title
-//     #author
-//     #favorite
-//     constructor(title, author, favorite) {
-//         this.#title = title
-//         this.#author = author
-//         this.#favorite = favorite
-//         this.img = img
-//     }
-// }
+class Book {
+    #title
+    #author
+    #image
+    constructor(title, author, image) {
+        this.#title = title
+        this.#author = author
+        this.#image = image
+    }
+
+      toJSON() {
+    return {
+      title: this.#title,
+      author: this.#author,
+      image: this.#image
+    }
+  }
+ }
 
 
 onValue(booksRef, (snapshot) => {
@@ -29,6 +36,7 @@ onValue(booksRef, (snapshot) => {
         const author = document.createElement('p')
         const favoriteInput = document.createElement('input')
         const favoriteLabel = document.createElement('label')
+        const imgOfBook = document.createElement('img')
         const deleteButton = document.createElement('button')
 
 
@@ -42,11 +50,14 @@ onValue(booksRef, (snapshot) => {
 
         favoriteLabel.innerText = 'Add to your favorite:'
 
+        imgOfBook.src = `${book.image}`
+        imgOfBook.classList.add('bookSize')
+
 
         deleteButton.innerText = 'Delte Book'
 
 
-        bookDiv.append(title, author, favoriteLabel, favoriteInput, deleteButton)
+        bookDiv.append(title, author, imgOfBook, favoriteLabel, favoriteInput, deleteButton)
         content.appendChild(bookDiv)
         
          const bookRef = ref(db, '/books/' + key)
@@ -55,26 +66,32 @@ onValue(booksRef, (snapshot) => {
          update(bookRef, {favorite: !book.favorite})})
 
          deleteButton.addEventListener('click', () => {
-         remove(bookRef) })    
+         remove(bookRef)})    
     }
    
 })
 
- const dataForm = document.querySelector('#bookForm')
+        const dataForm = document.querySelector('#bookForm')
  
+            dataForm.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-    dataForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+           const nameInput = document.querySelector('#bookName').value.trim()
+           const authorInput = document.querySelector('#bookAutor').value.trim()
+           const imageInput = document.querySelector('#bookImage').value
 
-           const name = document.querySelector('#bookName').value.trim()
-           const autor = document.querySelector('#bookAutor').value.trim()
-           const favorite = document.querySelector('#bookFavorite').checked
-
+           
            const newBookRef = push(booksRef)
+           
+           const book =  new Book(nameInput, authorInput, imageInput)
 
-            set(newBookRef,{
-                author: autor,
-                favorite: favorite,
-                title: name
-            })
+            set(newBookRef, book.toJSON(), {
+                title: nameInput,
+                author: authorInput,
+                image: imageInput,
+                favorite: false,
+               })
+            
+            console.log(book)
     })
+
