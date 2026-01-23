@@ -21,3 +21,4 @@ export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 // För kunna intregera med Data basen
 export const booksRef = ref(db, '/books');
+
