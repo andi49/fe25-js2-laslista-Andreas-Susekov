@@ -5,8 +5,10 @@ import {Book} from "./module/classBook.js"
 
 const content = document.querySelector("#content");
 
-let books = [];
+ let books = [];
 
+
+ 
 
 onValue(booksRef, (snapshot) => {
    const data = snapshot.val() 
@@ -24,10 +26,14 @@ onValue(booksRef, (snapshot) => {
     books.push({ key, book })
       book.render(content, db);
   }
+
+    books.sort((a, b) =>
+  a.book.title.localeCompare(b.book.title)
+);
+
+  console.log(books);
   
 });
-
-
 
 const dataForm = document.querySelector("#bookForm");
 

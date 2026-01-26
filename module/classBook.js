@@ -14,6 +14,10 @@ export class Book {
     this.#image = image;
     this.#favorite = favorite;
   }
+//  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
+  get title() {
+    return this.#title;
+  }
 
   render(content, db) {
     const bookDiv = document.createElement("div");
@@ -39,7 +43,7 @@ export class Book {
 
     deleteButton.innerText = "Delete Book";
 
-    bookDiv.append(title, author, image, favoriteLabel, favoriteInput, deleteButton, );
+    bookDiv.append( title, author, image, favoriteLabel, favoriteInput, deleteButton, );
     content.appendChild(bookDiv);
 
     const bookRef = ref(db, "/books/" + this.#key);
@@ -52,6 +56,5 @@ export class Book {
       remove(bookRef);
       bookDiv.remove();
     });
-    
   }
 }
