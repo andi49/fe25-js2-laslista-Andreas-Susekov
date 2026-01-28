@@ -1,5 +1,4 @@
 import { ref,update,remove,} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
-
 export class Book {
   #key;
   #title;
@@ -17,6 +16,14 @@ export class Book {
 //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
   get title() {
     return this.#title;
+  }
+
+    get author() {
+    return this.#author;
+  }
+
+  get favorite() {
+    return this.#favorite
   }
 
   render(content, db) {
