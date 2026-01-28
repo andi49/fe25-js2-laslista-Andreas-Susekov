@@ -14,6 +14,11 @@ export class Book {
     this.#favorite = favorite;
   }
 //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
+
+get key() {
+    return this.#key
+  }
+
   get title() {
     return this.#title;
   }

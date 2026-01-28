@@ -10,15 +10,18 @@ export function sortBooks(books, option) {
     
 export function sortAuthor(books, optionTwo){
     books.sort((a,b)=> {
-        if (optionTwo === 'bb') return b.book.author.localeCompare(a.book.author, 'sv');
-        else if(optionTwo === 'bc') return a.book.author.localeCompare(b.book.author, 'sv');
+        if (optionTwo === 'bb') return a.book.author.localeCompare(b.book.author, 'sv');
+        else if(optionTwo === 'bc') return b.book.author.localeCompare(a.book.author, 'sv');
+    })
+}
+
+export function newToldest(books, optionThree) {
+    books.sort((a,b) => {
+        if (optionThree === 'cc') return a.book.key.localeCompare(b.book.key);
+        else if(optionThree === 'cd') return b.book.key.localeCompare(a.book.key);
     })
 }
 
 export function sortFavoriteFilter(books){
 return books.filter(item => item.book.favorite)
-}
-
-export function unSoterFavoriteFilter(books){
-return books
 }
