@@ -1,7 +1,8 @@
-import { db, booksRef } from "./module/firebaseconfiq.js";
-import { onValue,set,push,} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+import {db, booksRef} from "./module/firebaseconfiq.js";
+import {onValue,set,push} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 import {Book} from "./module/classBook.js"
-import {sortBooks, sortAuthor, sortFavoriteFilter, newToldest} from "./module/filter.js"
+import {bookFilter, authorFilter, ageFilter} from "./module/filterFunction.js";
+import {sortBooks, sortAuthor, sortFavoriteFilter, newToldest} from "./module/filterSort.js"
 
 const content = document.querySelector("#content");
 let books = [];
@@ -17,84 +18,23 @@ animate.addEventListener('click', () => {
   if(toggle.classList.contains('active')){ 
       text.innerHTML = 'FAVORITE ON'
       content.innerHTML = ''
-      document.getElementById("sendButton").disabled = true;
-      sortFavoriteFilter(books).forEach(item => item.book.render(content, db));
+      document.querySelector("#sendButton").disabled = true;
+      sortFavoriteFilter(books).reverse().forEach(boken => boken.book.render(content, db,toggle));
   } else {
 
      text.innerHTML = 'FAVORITE OFF'
      content.innerHTML = ''
      document.getElementById("sendButton").disabled = false;
-     books.forEach(item => item.book.render(content, db));
+     books.forEach(boken => boken.book.render(content, db,toggle));
   }
    
 }) 
 
-const filterButton = document.querySelector('#filter');
-filterButton.selectedIndex = 0
-let option = 'aa'
+bookFilter({books, content, db, toggle, sortBooks})
 
-filterButton.addEventListener('click', () => {
+authorFilter({books, content, db, toggle, sortAuthor})
 
-  content.innerHTML = ''
-
-  if(option === 'aa') {
-    option = 'ab'
-  } else {
-    option = 'aa'
-  }
-
-  sortBooks(books, option)
-  books.forEach(boken => {
-    if(!toggle.classList.contains('active') || boken.book.favorite) {
-      boken.book.render(content, db)
-    }
-  });
-});
-
-
-
-const filterButtonAuthor = document.querySelector('#authorFilter')
-filterButtonAuthor.selectedIndex = 0
-let optionTwo = 'bb'
-
-filterButtonAuthor.addEventListener('click', () => {
- 
-  content.innerHTML = ''
-
-  if(optionTwo === 'bb') {
-    optionTwo = 'bc'
-  } else {
-    optionTwo = 'bb'
-  }
-
- sortAuthor(books, optionTwo)
-  books.forEach(boken => {
-     if(!toggle.classList.contains('active') || boken.book.favorite) {
-      boken.book.render(content, db)
-    }
-
-  });
-});
-
-const filterAge = document.querySelector('#filterAge')
-let  optionThree = 'cc'
-
-filterAge.addEventListener('click', () => {
-content.innerHTML = ''
-
-  if(optionThree === 'cc') {
-    optionThree = 'cd'
-  } else {
-    optionThree = 'cc'
-  }
- newToldest(books, optionThree)
-  books.forEach(boken => {
-     if(!toggle.classList.contains('active') || boken.book.favorite) {
-      boken.book.render(content, db)
-    }
-
-  });
-})
+ageFilter({books, content, db, toggle, newToldest})
 
 onValue(booksRef, (snapshot) => {
    const data = snapshot.val() 
@@ -113,11 +53,14 @@ onValue(booksRef, (snapshot) => {
     books.push({ key, book })
 
   }
-  
-  sortBooks(books, option)
-  sortAuthor(books, optionTwo)
-  books.forEach(boken => boken.book.render(content, db))
+  if (toggle.classList.contains('active')) {
+    console.log( books)
+    books.filter(bok => bok.book.favorite).forEach(bok => bok.book.render(content, db, toggle));
+  } else {
+    books.forEach(bok => bok.book.render(content, db, toggle));
+  }
 });
+
 
 
 

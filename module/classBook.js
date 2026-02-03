@@ -1,4 +1,4 @@
-import { ref,update,remove,} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+import {ref,update,remove} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 export class Book {
   #key;
   #title;
@@ -31,7 +31,7 @@ get key() {
     return this.#favorite
   }
 
-  render(content, db) {
+  render(content, db, toggle) {
     const bookDiv = document.createElement("div");
     const title = document.createElement("h3");
     const author = document.createElement("p");
@@ -54,14 +54,18 @@ get key() {
     favoriteLabel.innerText = "Add to favorite:";
 
     deleteButton.innerText = "Delete Book";
+    deleteButton.id = 'delete'
 
-    bookDiv.append( title, author, image, favoriteLabel, favoriteInput, deleteButton, );
+    bookDiv.append( title, author, image, favoriteLabel, favoriteInput, deleteButton);
     content.appendChild(bookDiv);
 
     const bookRef = ref(db, "/books/" + this.#key);
 
     favoriteInput.addEventListener("change", () => {
       update(bookRef, { favorite: favoriteInput.checked });
+       if (!favoriteInput.checked && toggle.classList.contains("active")) {
+      bookDiv.remove();
+    }
     });
 
     deleteButton.addEventListener("click", () => {
