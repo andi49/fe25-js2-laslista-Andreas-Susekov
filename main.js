@@ -50,16 +50,20 @@ onValue(booksRef, (snapshot) => {
         data[key].image, 
         data[key].favorite
       )
+
     books.push({ key, book })
 
   }
+  
+  
   if (toggle.classList.contains('active')) {
     console.log( books)
     books.filter(bok => bok.book.favorite).forEach(bok => bok.book.render(content, db, toggle));
   } else {
     books.forEach(bok => bok.book.render(content, db, toggle));
   }
-});
+}),error => {
+    console.error("Wrong", error)}
 
 
 

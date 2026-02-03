@@ -61,16 +61,28 @@ get key() {
 
     const bookRef = ref(db, "/books/" + this.#key);
 
-    favoriteInput.addEventListener("change", () => {
-      update(bookRef, { favorite: favoriteInput.checked });
-       if (!favoriteInput.checked && toggle.classList.contains("active")) {
-      bookDiv.remove();
-    }
+    favoriteInput.addEventListener("change", async () => {
+      try{
+            await update(bookRef, { favorite: favoriteInput.checked });
+         if (!favoriteInput.checked && toggle.classList.contains("active")) {
+            bookDiv.remove();}
+      } catch(error) {
+        console.log('Couldnt favorite a book', error)
+          alert('Something went wrong', error)
+      }
+  
     });
 
-    deleteButton.addEventListener("click", () => {
-      remove(bookRef);
-      bookDiv.remove();
+
+    deleteButton.addEventListener("click", async () => {
+      try{
+        await remove(bookRef);
+        bookDiv.remove();
+
+      } catch (error) {
+          console.log('Couldnt remove a book', error)
+          alert('Something went wrong', error)
+      }
     });
   }
 }
