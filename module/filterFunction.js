@@ -1,4 +1,4 @@
-export function bookFilter({ books, content, db, toggle, sortBooks }) {
+export function bookFilter({books, content, db, toggle, sortBooks}) {
 
 const filterButton = document.querySelector('#filter');
 let option = 'aa'
@@ -15,15 +15,16 @@ filterButton.addEventListener('change', () => {
 
   sortBooks(books, option)
   books.forEach(boken => {
-    if(!toggle.classList.contains('active') | boken.book.favorite) {
+    if(!toggle.classList.contains('active') | boken.book.favorite)
+       {
       boken.book.render(content, db)
-    }
+       }
   });
 });
 
 }
 
-export function authorFilter({ books, content, db, toggle, sortAuthor }) {
+export function authorFilter({books, content, db, toggle, sortAuthor}) {
 
 const filterButtonAuthor = document.querySelector('#authorFilter')
 let optionTwo = 'bb'
@@ -40,19 +41,20 @@ filterButtonAuthor.addEventListener('change', () => {
 
  sortAuthor(books, optionTwo)
   books.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.book.favorite) {
+     if(!toggle.classList.contains('active') | boken.book.favorite)
+      {
       boken.book.render(content, db)
-    }
+      }
   });
 });
 }
 
-export function ageFilter({ books, content, db, toggle, newToldest }) {
+export function ageFilter({books, content, db, toggle, newToldest}) {
 
 const filterAge = document.querySelector('#filterAge')
 let  optionThree = 'cc'
 
-filterAge.addEventListener('click', () => {
+filterAge.addEventListener('change', () => {
 content.innerHTML = ''
 
   if(optionThree === 'cc') {
@@ -60,11 +62,13 @@ content.innerHTML = ''
   } else {
     optionThree = 'cc'
   }
+  
  newToldest(books, optionThree)
   books.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.book.favorite) {
+     if(!toggle.classList.contains('active') | boken.book.favorite) 
+      {
       boken.book.render(content, db)
-    }
+      }
 
   });
 })}

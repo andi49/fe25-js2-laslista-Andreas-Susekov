@@ -50,23 +50,19 @@ onValue(booksRef, (snapshot) => {
         data[key].image, 
         data[key].favorite
       )
-
     books.push({ key, book })
-
   }
   
   
   if (toggle.classList.contains('active')) {
-    console.log( books)
-    books.filter(bok => bok.book.favorite).forEach(bok => bok.book.render(content, db, toggle));
+    console.log(books)
+    books.filter(bok => bok.book.favorite)
+    .forEach(bok => bok.book.render(content, db, toggle));
   } else {
-    books.forEach(bok => bok.book.render(content, db, toggle));
+    books.reverse().forEach(bok => bok.book.render(content, db, toggle));
   }
 }),error => {
     console.error("Wrong", error)}
-
-
-
 
 const dataForm = document.querySelector("#bookForm");
 
@@ -75,7 +71,13 @@ dataForm.addEventListener("submit", (event) => {
 
   const nameInput = document.querySelector("#bookName").value.trim();
   const authorInput = document.querySelector("#bookAutor").value.trim();
-  const imageInput = document.querySelector("#bookImage").value;
+  let imageInput = document.querySelector("#bookImage").value;
+
+  const defaultImage = 'https://static.vecteezy.com/system/resources/thumbnails/024/960/560/small_2x/red-book-transparent-png.png'
+
+  if(!imageInput) {
+    imageInput = defaultImage
+  }
 
   const newBookRef = push(booksRef);
   const key = newBookRef.key;

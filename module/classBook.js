@@ -56,7 +56,7 @@ get key() {
     deleteButton.innerText = "Delete Book";
     deleteButton.id = 'delete'
 
-    bookDiv.append( title, author, image, favoriteLabel, favoriteInput, deleteButton);
+    bookDiv.append(title, author, image, favoriteLabel, favoriteInput, deleteButton);
     content.appendChild(bookDiv);
 
     const bookRef = ref(db, "/books/" + this.#key);
