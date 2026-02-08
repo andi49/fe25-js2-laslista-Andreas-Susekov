@@ -1,68 +1,63 @@
-import {db, booksRef} from "./module/firebaseconfiq.js";
-import {onValue,set,push} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
-import {Book} from "./module/classBook.js"
-import {bookFilter, authorFilter, ageFilter} from "./module/filterFunction.js";
-import {sortBooks, sortAuthor, sortFavoriteFilter, newToldest} from "./module/filterSort.js"
+import { db, booksRef } from "./module/firebaseconfiq.js";
+import { onValue,set,push,} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+import { Book } from "./module/classBook.js";
+import { bookFilter, authorFilter, ageFilter,} from "./module/filterFunction.js";
+import {sortBooks,sortAuthor,sortFavoriteFilter,newToldest,} from "./module/filterSort.js";
 
 let books = [];
 const content = document.querySelector("#content");
 
-
 /// shoutout to this guy https://dev.to/asapsonter/simple-toggle-buttononoff-3k2i
-const toggle = document.querySelector('.toggle')
-const text = document.querySelector('.text')
-const animate = document.querySelector('#animate')
+const toggle = document.querySelector(".toggle");
+const text = document.querySelector(".text");
+const animate = document.querySelector("#animate");
 
-animate.addEventListener('click', () => {
-  toggle.classList.toggle('active')
+animate.addEventListener("click", () => {
+  toggle.classList.toggle("active");
 
-  if(toggle.classList.contains('active')){ 
-      text.innerHTML = 'FAVORITE ON'
-      content.innerHTML = ''
-      document.querySelector("#sendButton").disabled = true;
-      sortFavoriteFilter(books).forEach(boken => boken.book.render(content, db,toggle));
+  if (toggle.classList.contains("active")) {
+    text.innerHTML = "FAVORITE ON";
+    content.innerHTML = "";
+    document.querySelector("#sendButton").disabled = true;
+    sortFavoriteFilter(books).forEach((boken) => boken.render(content, db, toggle));
   } else {
-
-     text.innerHTML = 'FAVORITE OFF'
-     content.innerHTML = ''
-     document.getElementById("sendButton").disabled = false;
-     books.forEach(boken => boken.book.render(content, db,toggle));
+    text.innerHTML = "FAVORITE OFF";
+    content.innerHTML = "";
+    document.getElementById("sendButton").disabled = false;
+    books.forEach((boken) => boken.render(content, db, toggle));
   }
-   
-}) 
+});
 
-bookFilter({books, content, db, toggle, sortBooks})
 
-authorFilter({books, content, db, toggle, sortAuthor})
 
-ageFilter({books, content, db, toggle, newToldest})
+  onValue(booksRef, (snapshot) => {
+  const data = snapshot.val();
+  books = [];
+  content.innerHTML = "";
 
-onValue(booksRef, (snapshot) => {
-   const data = snapshot.val() 
-   
-    content.innerHTML = ''
-    books.length = 0
-    
-    for (const key in data) {
-    const book = new Book( 
-        key,
-        data[key].title, 
-        data[key].author,
-        data[key].image, 
-        data[key].favorite
-      )
-    books.push({ key, book })
+  for (const key in data) {
+    const book = new Book(
+      key,
+      data[key].title,
+      data[key].author,
+      data[key].image,
+      data[key].favorite,
+    );
+    books.push(book);
   }
-  
-  
-  if (toggle.classList.contains('active')) {
-    console.log(books)
-    books.filter(bok => bok.book.favorite).forEach(bok => bok.book.render(content, db, toggle));
+  console.log(books);
+
+  if (toggle.classList.contains("active")) {
+    books.filter((bok) => bok.favorite).forEach((bok) => bok.render(content, db, toggle));
   } else {
-    books.reverse().forEach(bok => bok.book.render(content, db, toggle));
+    books.reverse().forEach((bok) => bok.render(content, db, toggle));
   }
-}),error => {
-    console.error("Wrong", error)}
+
+  bookFilter({ books, content, db, toggle, sortBooks });
+  authorFilter({ books, content, db, toggle, sortAuthor });
+  ageFilter({ books, content, db, toggle, newToldest });
+
+})
 
 const dataForm = document.querySelector("#bookForm");
 
@@ -73,10 +68,11 @@ dataForm.addEventListener("submit", (event) => {
   const authorInput = document.querySelector("#bookAutor").value.trim();
   let imageInput = document.querySelector("#bookImage").value;
 
-  const defaultImage = 'https://static.vecteezy.com/system/resources/thumbnails/024/960/560/small_2x/red-book-transparent-png.png'
+  const defaultImage =
+    "https://static.vecteezy.com/system/resources/thumbnails/024/960/560/small_2x/red-book-transparent-png.png";
 
-  if(!imageInput) {
-    imageInput = defaultImage
+  if (!imageInput) {
+    imageInput = defaultImage;
   }
 
   const newBookRef = push(booksRef);
@@ -85,14 +81,13 @@ dataForm.addEventListener("submit", (event) => {
   try {
     const book = new Book(key, nameInput, authorInput, imageInput);
 
-    set(newBookRef,{
+    set(newBookRef, {
       title: nameInput,
       author: authorInput,
       image: imageInput,
       favorite: false,
     });
-  console.log(book);
-  
+    console.log(book);
   } catch (error) {
     alert(error.message);
   }

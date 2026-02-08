@@ -4,9 +4,7 @@ const filterButton = document.querySelector('#filter');
 let option = 'aa'
 
 filterButton.addEventListener('change', () => {
-
   content.innerHTML = ''
-
   if(option === 'aa') {
     option = 'ab'
   } else {
@@ -14,10 +12,11 @@ filterButton.addEventListener('change', () => {
   }
 
   sortBooks(books, option)
+  
   books.forEach(boken => {
-    if(!toggle.classList.contains('active') | boken.book.favorite)
+    if(!toggle.classList.contains('active') || boken.favorite)
        {
-      boken.book.render(content, db)
+      boken.render(content, db)
        }
   });
 });
@@ -41,9 +40,9 @@ filterButtonAuthor.addEventListener('change', () => {
 
  sortAuthor(books, optionTwo)
   books.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.book.favorite)
+     if(!toggle.classList.contains('active') | boken.favorite)
       {
-      boken.book.render(content, db)
+      boken.render(content, db)
       }
   });
 });
@@ -65,9 +64,9 @@ content.innerHTML = ''
   
  newToldest(books, optionThree)
   books.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.book.favorite) 
+     if(!toggle.classList.contains('active') | boken.favorite) 
       {
-      boken.book.render(content, db)
+      boken.render(content, db)
       }
 
   });
