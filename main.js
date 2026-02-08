@@ -4,8 +4,9 @@ import {Book} from "./module/classBook.js"
 import {bookFilter, authorFilter, ageFilter} from "./module/filterFunction.js";
 import {sortBooks, sortAuthor, sortFavoriteFilter, newToldest} from "./module/filterSort.js"
 
-const content = document.querySelector("#content");
 let books = [];
+const content = document.querySelector("#content");
+
 
 /// shoutout to this guy https://dev.to/asapsonter/simple-toggle-buttononoff-3k2i
 const toggle = document.querySelector('.toggle')
@@ -19,7 +20,7 @@ animate.addEventListener('click', () => {
       text.innerHTML = 'FAVORITE ON'
       content.innerHTML = ''
       document.querySelector("#sendButton").disabled = true;
-      sortFavoriteFilter(books).reverse().forEach(boken => boken.book.render(content, db,toggle));
+      sortFavoriteFilter(books).forEach(boken => boken.book.render(content, db,toggle));
   } else {
 
      text.innerHTML = 'FAVORITE OFF'
@@ -56,8 +57,7 @@ onValue(booksRef, (snapshot) => {
   
   if (toggle.classList.contains('active')) {
     console.log(books)
-    books.filter(bok => bok.book.favorite)
-    .forEach(bok => bok.book.render(content, db, toggle));
+    books.filter(bok => bok.book.favorite).forEach(bok => bok.book.render(content, db, toggle));
   } else {
     books.reverse().forEach(bok => bok.book.render(content, db, toggle));
   }

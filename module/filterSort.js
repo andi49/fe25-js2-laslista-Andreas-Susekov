@@ -1,4 +1,5 @@
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+
 export function sortBooks(books, option) {
      books.sort((a, b) => {
         if (option === 'aa') return a.book.title.localeCompare(b.book.title, 'sv');
