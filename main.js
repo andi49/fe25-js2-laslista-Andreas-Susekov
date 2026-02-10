@@ -28,8 +28,6 @@ animate.addEventListener("click", () => {
   }
 });
 
-
-
   onValue(booksRef, (snapshot) => {
   const data = snapshot.val();
   books = [];
@@ -45,7 +43,6 @@ animate.addEventListener("click", () => {
     );
     books.push(book);
   }
-  console.log(books);
 
   if (toggle.classList.contains("active")) {
     books.filter((bok) => bok.favorite).forEach((bok) => bok.render(content, db, toggle));

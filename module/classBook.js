@@ -13,8 +13,7 @@ export class Book {
     this.#image = image;
     this.#favorite = favorite;
   }
-  //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
-
+  
   get key() {
     return this.#key
   }
