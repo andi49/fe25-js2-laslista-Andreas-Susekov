@@ -11,9 +11,9 @@ filterButton.addEventListener('change', () => {
     option = 'aa'
   }
 
-  sortBooks(books, option)
+  const sortedBooks = sortBooks(books, option);
   
-  books.forEach(boken => {
+  sortedBooks.forEach(boken => {
     if(!toggle.classList.contains('active') || boken.favorite)
        {
       boken.render(content, db)
@@ -38,8 +38,9 @@ filterButtonAuthor.addEventListener('change', () => {
     optionTwo = 'bb'
   }
 
- sortAuthor(books, optionTwo)
-  books.forEach(boken => {
+ const sortedAuthor = sortAuthor(books, optionTwo)
+
+  sortedAuthor.forEach(boken => {
      if(!toggle.classList.contains('active') | boken.favorite)
       {
       boken.render(content, db)
@@ -62,8 +63,9 @@ content.innerHTML = ''
     optionThree = 'cc'
   }
   
- newToldest(books, optionThree)
-  books.forEach(boken => {
+ const sortedNewTOOldest = newToldest(books, optionThree)
+ 
+  sortedNewTOOldest.forEach(boken => {
      if(!toggle.classList.contains('active') | boken.favorite) 
       {
       boken.render(content, db)
