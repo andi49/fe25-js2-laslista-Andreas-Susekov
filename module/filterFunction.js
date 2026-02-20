@@ -1,75 +1,67 @@
-export function bookFilter({books, content, db, toggle, sortBooks}) {
+export function bookFilter({ books, content, db, toggle, sortBooks }) {
+  const filterButton = document.querySelector("#filter");
+  let option = "aa";
 
-const filterButton = document.querySelector('#filter');
-let option = 'aa'
+  filterButton.addEventListener("change", () => {
+    content.innerHTML = "";
+    if (option === "aa") {
+      option = "ab";
+    } else {
+      option = "aa";
+    }
 
-filterButton.addEventListener('change', () => {
-  content.innerHTML = ''
-  if(option === 'aa') {
-    option = 'ab'
-  } else {
-    option = 'aa'
-  }
+    const sortedBooks = sortBooks(books, option);
 
-  const sortedBooks = sortBooks(books, option);
-  
-  sortedBooks.forEach(boken => {
-    if(!toggle.classList.contains('active') || boken.favorite)
-       {
-      boken.render(content, db)
-       }
+    sortedBooks.forEach((boken) => {
+      if (!toggle.classList.contains("active") | boken.favorite) {
+        boken.render(content, db);
+      }
+    });
   });
-});
-
 }
 
-export function authorFilter({books, content, db, toggle, sortAuthor}) {
+export function authorFilter({ books, content, db, toggle, sortAuthor }) {
+  const filterButtonAuthor = document.querySelector("#authorFilter");
+  let optionTwo = "bb";
 
-const filterButtonAuthor = document.querySelector('#authorFilter')
-let optionTwo = 'bb'
+  filterButtonAuthor.addEventListener("change", () => {
+    content.innerHTML = "";
 
-filterButtonAuthor.addEventListener('change', () => {
- 
-  content.innerHTML = ''
+    if (optionTwo === "bb") {
+      optionTwo = "bc";
+    } else {
+      optionTwo = "bb";
+    }
 
-  if(optionTwo === 'bb') {
-    optionTwo = 'bc'
-  } else {
-    optionTwo = 'bb'
-  }
+    const sortedAuthor = sortAuthor(books, optionTwo);
 
- const sortedAuthor = sortAuthor(books, optionTwo)
-
-  sortedAuthor.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.favorite)
-      {
-      boken.render(content, db)
+    sortedAuthor.forEach((boken) => {
+      if (!toggle.classList.contains("active") | boken.favorite) {
+        boken.render(content, db);
       }
+    });
   });
-});
 }
 
-export function ageFilter({books, content, db, toggle, newToldest}) {
+export function ageFilter({ books, content, db, toggle, newToldest }) {
+  const filterAge = document.querySelector("#filterAge");
+  let optionThree = "cc";
 
-const filterAge = document.querySelector('#filterAge')
-let  optionThree = 'cc'
+  filterAge.addEventListener("change", () => {
+    content.innerHTML = "";
 
-filterAge.addEventListener('change', () => {
-content.innerHTML = ''
+    if (optionThree === "cc") {
+      optionThree = "cd";
+    } else {
+      optionThree = "cc";
+    }
 
-  if(optionThree === 'cc') {
-    optionThree = 'cd'
-  } else {
-    optionThree = 'cc'
-  }
-  
- const sortedNewTOOldest = newToldest(books, optionThree)
- 
-  sortedNewTOOldest.forEach(boken => {
-     if(!toggle.classList.contains('active') | boken.favorite) 
-      {
-      boken.render(content, db)
+    const sortedNewTOOldest = newToldest(books, optionThree);
+
+    sortedNewTOOldest.forEach((boken) => {
+      if (!toggle.classList.contains("active") | boken.favorite) {
+        boken.render(content, db);
       }
-
+    });
   });
-})}
+}
